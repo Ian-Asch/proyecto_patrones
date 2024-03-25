@@ -1,0 +1,11 @@
+patrones
+ matias: builder transporter
+ ian simple: simple factory para paquetes
+ fabian: prototype ruta
+
+jimmy y diego: creacion de base de datos
+
+documentacion la hace las personas que hicieron
+los patrones
+
+ 
