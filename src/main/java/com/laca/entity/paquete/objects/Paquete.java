@@ -1,79 +1,79 @@
 package com.laca.entity.paquete.objects;
 
 public class Paquete {
-    String tipo;
-    double peso;
-    String nombre;
-    String Descripcion;
-    double precio;
-    double altura;
-    double ancho;
+    String type;
+    double weight;
+    String name;
+    String description;
+    double price;
+    double sizeHeight;
+    double sizeWidth;
 
     public Paquete() {}
 
-    public Paquete(String tipo, double peso, String nombre, String Descripcion, double precio, double altura, double ancho) {
-        this.tipo = tipo;
-        this.peso = peso;
-        this.nombre = nombre;
-        this.Descripcion = Descripcion;
-        this.precio = precio;
-        this.altura = altura;
-        this.ancho = ancho;
+    public Paquete(String type, double weight, String name, String description, double price, double sizeHeight, double sizeWidth) {
+        this.type = type;
+        this.weight = weight;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.sizeHeight = sizeHeight;
+        this.sizeWidth = sizeWidth;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getType() {
+        return type;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public double getPeso() {
-        return peso;
+    public double getWeight() {
+        return weight;
     }
 
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String Name) {
+        this.name = Name;
     }
 
-    public String getDescripcion() {
-        return Descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public double getAltura() {
-        return altura;
+    public double getSizeHeight() {
+        return sizeHeight;
     }
 
-    public void setAltura(double altura) {
-        this.altura = altura;
+    public void setSizeHeight(double sizeHeight) {
+        this.sizeHeight = sizeHeight;
     }
 
-    public double getAncho() {
-        return ancho;
+    public double getSizeWidth() {
+        return sizeWidth;
     }
 
-    public void setAncho(double ancho) {
-        this.ancho = ancho;
+    public void setSizeWidth(double sizeWidth) {
+        this.sizeWidth = sizeWidth;
     }
 }
