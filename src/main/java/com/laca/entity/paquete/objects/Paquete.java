@@ -6,19 +6,19 @@ public class Paquete {
     String name;
     String description;
     double price;
-    double sizeHeight;
-    double sizeWidth;
+    double height;
+    double width;
 
     public Paquete() {}
 
-    public Paquete(String type, double weight, String name, String description, double price, double sizeHeight, double sizeWidth) {
+    public Paquete(String type, double weight, String name, String description, double price, double height, double width) {
         this.type = type;
         this.weight = weight;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.sizeHeight = sizeHeight;
-        this.sizeWidth = sizeWidth;
+        this.height = height;
+        this.width = width;
     }
 
     public String getType() {
@@ -61,19 +61,19 @@ public class Paquete {
         this.price = price;
     }
 
-    public double getSizeHeight() {
-        return sizeHeight;
+    public double getHeight() {
+        return height;
     }
 
-    public void setSizeHeight(double sizeHeight) {
-        this.sizeHeight = sizeHeight;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
-    public double getSizeWidth() {
-        return sizeWidth;
+    public double getWidth() {
+        return width;
     }
 
-    public void setSizeWidth(double sizeWidth) {
-        this.sizeWidth = sizeWidth;
+    public void setWidth(double width) {
+        this.width = width;
     }
 }
