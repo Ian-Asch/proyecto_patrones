@@ -5,7 +5,7 @@ public class PaqueteFactory {
         return new Paquete();
     }
 
-    public static Paquete creacrPaquete(String type, double weight, String name, String description, double price, double height, double width) {
-        return new Paquete(type,weight,name,description,price,height,width);
+    public static Paquete crearPaquete(int packageID, String name, String description, double weight, double price, double sizeHeight, double sizeWidth, int clientID, int routeID, String status) {
+        return new Paquete(packageID,name,description,weight,price,sizeHeight,sizeWidth,clientID,routeID,status);
     }
 }

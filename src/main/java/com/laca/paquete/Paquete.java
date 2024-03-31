@@ -1,24 +1,41 @@
 package com.laca.paquete;
 
 public class Paquete {
-    String type;
-    double weight;
-    String name;
-    String description;
-    double price;
-    double height;
-    double width;
+    private int packageID;
+    private String type;
+    private String name;
+    private String description;
+    private double weight;
+    private double price;
+    private double sizeHeight;
+    private double sizeWidth;
+    private int clientID;
+    private int routeID;
+    private String status;
 
     public Paquete() {}
 
-    public Paquete(String type, double weight, String name, String description, double price, double height, double width) {
-        this.type = type;
-        this.weight = weight;
+    public Paquete(int packageID, String name, String description, double weight, double price, double sizeHeight, double sizeWidth, int clientID, int routeID, String status) {
+        this.packageID = packageID;
         this.name = name;
         this.description = description;
+        this.weight = weight;
         this.price = price;
-        this.height = height;
-        this.width = width;
+        this.sizeHeight = sizeHeight;
+        this.sizeWidth = sizeWidth;
+        this.clientID = clientID;
+        this.routeID = routeID;
+        this.status = status;
+    }
+
+
+
+    public int getPackageID() {
+        return packageID;
+    }
+
+    public void setPackageID(int packageID) {
+        this.packageID = packageID;
     }
 
     public String getType() {
@@ -61,19 +78,43 @@ public class Paquete {
         this.price = price;
     }
 
-    public double getHeight() {
-        return height;
+    public double getSizeHeight() {
+        return sizeHeight;
     }
 
-    public void setHeight(double height) {
-        this.height = height;
+    public void setSizeHeight(double sizeHeight) {
+        this.sizeHeight = sizeHeight;
     }
 
-    public double getWidth() {
-        return width;
+    public double getSizeWidth() {
+        return sizeWidth;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
+    public void setSizeWidth(double sizeWidth) {
+        this.sizeWidth = sizeWidth;
+    }
+
+    public int getClientID() {
+        return clientID;
+    }
+
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
+
+    public int getRouteID() {
+        return routeID;
+    }
+
+    public void setRouteID(int routeID) {
+        this.routeID = routeID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
