@@ -104,7 +104,7 @@ public class PaqueteService {
 
         try (Connection connection = dataSource.getConnection()) {
 
-        String query = "UPDATE Packages SET Name=?," +
+            String query = "UPDATE Packages SET Name=?," +
                 "Description=?," +
                 "Weight=?," +
                 "Price=?," +
@@ -114,10 +114,31 @@ public class PaqueteService {
                 "RouteID=?," +
                 "Status=? WHERE PackageID=?";
 
+            PreparedStatement statement = connection.prepareStatement(query);
 
+            statement.setString(1,updatePaquete.getName());
+            statement.setString(2,updatePaquete.getDescription());
+            statement.setDouble(3,updatePaquete.getWeight());
+            statement.setDouble(4,updatePaquete.getPrice());
+            statement.setDouble(5,updatePaquete.getSizeHeight());
+            statement.setDouble(6,updatePaquete.getSizeWidth());
+            statement.setInt(7,updatePaquete.getClientID());
+            statement.setInt(8,updatePaquete.getRouteID());
+            statement.setString(9,updatePaquete.getStatus());
+
+            statement.setInt(10,packageID);
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error updating user: " + e.getMessage(), e);
+            throw new RuntimeException("Error updating package: " + e.getMessage(), e);
+        }
+    }
+
+
+    public Boolean deletePaquete(int packageID) {
+        try () {
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting transporter: " + e.getMessage(), e);
         }
     }
 }
