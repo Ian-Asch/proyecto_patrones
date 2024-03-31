@@ -1,7 +1,10 @@
-package com.laca.service;
+package com.laca.transportUnits.service;
 
-import com.laca.entity.transport.Transport;
-import com.laca.entity.transport.enums.TransportType;
+import com.laca.transportUnits.Transport;
+import com.laca.transportUnits.enums.TransportType;
+import com.laca.transportUnits.pattern.builder.ITransport;
+import com.laca.transportUnits.pattern.builder.TransportBuilder;
+import com.laca.transportUnits.pattern.director.TransportBuilderDirector;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +22,7 @@ public class TransportService {
         this.dataSource = dataSource;
     }
 
-    @Transactional // ¿Función add()?
+    @Transactional
     public List<Transport> getAllTransports() {
         List<Transport> transports = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
@@ -27,19 +30,18 @@ public class TransportService {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Transport transport = new Transport();
-                transport.setUnitID(resultSet.getInt("UnitID"));
-                transport.setName(resultSet.getString("Name"));
-                transport.setPlate(resultSet.getString("Plate"));
-                transport.setSizeHeight(resultSet.getInt("SizeHeight"));
-                transport.setSizeWidth(resultSet.getInt("SizeWidth"));
-                transport.setType(TransportType.valueOf(resultSet.getString("Type")));
-                transport.setMaxWeight(resultSet.getInt("MaxWeight"));
-                transport.setCarrierID(resultSet.getInt("CarrierID"));
+
+                TransportBuilderDirector transportBuilderDirector = new TransportBuilderDirector();
+                TransportBuilder transportBuilder = new TransportBuilder();
+
+                transportBuilderDirector.buildPickup1(transportBuilder);
+
+                Transport transport = transportBuilder.getTransport();
                 transports.add(transport);
+
             }
         } catch (SQLException e) {
-            // Manejo de excepciones
+
         }
         return transports;
     }

@@ -1,7 +1,7 @@
-package com.laca.entity.transport.director;
+package com.laca.transportUnits.pattern.director;
 
-import com.laca.entity.transport.builder.ITransport;
-import com.laca.entity.transport.enums.TransportType;
+import com.laca.transportUnits.pattern.builder.ITransport;
+import com.laca.transportUnits.enums.TransportType;
 
 public class TransportBuilderDirector {
     public void buildOnFoot1(ITransport transport) {

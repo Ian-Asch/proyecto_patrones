@@ -1,7 +1,7 @@
-package com.laca.controller;
+package com.laca.transportUnits.controller;
 
-import com.laca.entity.transport.Transport;
-import com.laca.service.TransportService;
+import com.laca.transportUnits.Transport;
+import com.laca.transportUnits.service.TransportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

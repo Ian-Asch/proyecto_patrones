@@ -1,6 +1,6 @@
-package com.laca.entity.transport;
+package com.laca.transportUnits;
 
-import com.laca.entity.transport.enums.TransportType;
+import com.laca.transportUnits.enums.TransportType;
 
 public class Transport {
 

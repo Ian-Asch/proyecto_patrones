@@ -1,7 +1,7 @@
-package com.laca.entity.transport.builder;
+package com.laca.transportUnits.pattern.builder;
 
-import com.laca.entity.transport.Transport;
-import com.laca.entity.transport.enums.TransportType;
+import com.laca.transportUnits.Transport;
+import com.laca.transportUnits.enums.TransportType;
 
 public interface ITransport {
 
