@@ -199,3 +199,37 @@ COMMIT;
 
 END IF;
 END;
+
+create
+definer = admin@localhost procedure update_Users(
+    IN in_userID int,
+    IN in_name VARCHAR(255),
+    IN in_identificationNumber  VARCHAR(100),
+    IN in_companyName VARCHAR(255),
+    IN in_userType ENUM('Administrator', 'Carrier', 'Client', 'Approver', 'Viewer'),
+    IN in_password VARCHAR(255))
+BEGIN
+  DECLARE routes_users INT;
+
+START TRANSACTION;
+
+-- Verifica si el Routes existe
+SELECT COUNT(*) INTO  routes_users FROM Users  u WHERE u.UserID = in_userID;
+
+IF routes_users = 0 THEN
+    ROLLBACK;
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Routes not found by ID';
+ELSE
+    -- Actualiza el Routes
+UPDATE Users r
+SET r.Name = in_name, r.CompanyName = in_companyName, r.IdentificationNumber = in_identificationNumber, r.Password = in_password, r.UserType = in_userType
+WHERE r.UserID = in_userID;
+
+-- Devuelve el Routes modificado
+SELECT * FROM Users r WHERE r.UserID = in_userID;
+COMMIT;
+
+END IF;
+END;
+
