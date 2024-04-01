@@ -34,11 +34,12 @@ public class PaqueteController {
     }
 
     @PutMapping("/{packageId}")
-    public void updatePaquete(@PathVariable int packageId, @RequestBody Paquete updatedPaquete) {
+    public ResponseEntity<?> updatePaquete(@PathVariable int packageId, @RequestBody Paquete updatedPaquete) {
         try {
-            paqueteService.updatePaquete(packageId, updatedPaquete);
+            Paquete paquete = paqueteService.updatePaquete(packageId, updatedPaquete);
+            return ResponseEntity.ok(paquete);
         } catch (Exception e) {
-            throw new RuntimeException("(Controller) error updating package: " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("(Controller) package not found: " + e.getMessage());
         }
     }
 

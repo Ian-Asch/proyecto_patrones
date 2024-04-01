@@ -98,7 +98,7 @@ public class PaqueteService {
 
 
     @Transactional
-    public void updatePaquete(int packageID, Paquete updatePaquete) {
+    public Paquete updatePaquete(int packageID, Paquete updatePaquete) {
 
         try (Connection connection = dataSource.getConnection()) {
 
@@ -126,6 +126,9 @@ public class PaqueteService {
 
             statement.setInt(10,packageID);
 
+            Paquete updatedPaquete = getPaqueteId(packageID);
+
+            return updatedPaquete;
         } catch (SQLException e) {
             throw new RuntimeException("Error updating package: " + e.getMessage(), e);
         }
