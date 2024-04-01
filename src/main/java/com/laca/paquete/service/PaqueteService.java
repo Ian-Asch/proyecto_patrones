@@ -45,10 +45,8 @@ public class PaqueteService {
                         resultSet.getString("Status"));
             }
 
-        } catch (SQLException e) {
-//           throw new SQLException(e);
-        }catch (IllegalArgumentException e ){
-//            error
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating package: " + e.getMessage(), e);
         }
 
         return paquetes;
@@ -100,7 +98,7 @@ public class PaqueteService {
 
 
     @Transactional
-    public Paquete updatePaquete(int packageID, Paquete updatePaquete) {
+    public void updatePaquete(int packageID, Paquete updatePaquete) {
 
         try (Connection connection = dataSource.getConnection()) {
 
@@ -134,11 +132,59 @@ public class PaqueteService {
     }
 
 
-    public Boolean deletePaquete(int packageID) {
-        try () {
+    @Transactional
+    public Paquete getPaqueteId(int packageID) {
+        try (Connection connection = dataSource.getConnection()) {
+
+            String query = "SELECT * FROM Packages WHERE UserID = ?";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setInt(1, packageID);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Paquete paquete = PaqueteFactory.crearPaquete(
+                        resultSet.getInt("PackageID"),
+                        // resultSet.getString("Type"), //Este valor no existe en el SQL
+                        resultSet.getString("Name"),
+                        resultSet.getString("Description"),
+                        resultSet.getDouble("Weight"),
+                        resultSet.getDouble("Price"),
+                        resultSet.getDouble("SizeHeight"),
+                        resultSet.getDouble("SizeWidth"),
+                        resultSet.getInt("ClientID"),
+                        resultSet.getInt("RouteID"),
+                        resultSet.getString("Status"));
+                return paquete;
+            } else {
+                throw new RuntimeException("Package not found with ID: " + packageID);
+            }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error deleting transporter: " + e.getMessage(), e);
+            throw new RuntimeException("Error retrieving package: " + e.getMessage(), e);
+        }
+    }
+
+
+    public Boolean deletePaquete(int packageID) {
+        try (Connection connection = dataSource.getConnection()) {
+
+            String query = "DELETE FROM Packages WHERE PackageID = ?";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setInt(1, packageID);
+
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                return false;
+            }
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting package: " + e.getMessage(), e);
         }
     }
 }
