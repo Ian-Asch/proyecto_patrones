@@ -6,7 +6,20 @@ public class PaqueteFactory {
     }
 
     public static Paquete crearPaquete(int packageID, String name, String description, double weight, double price, double sizeHeight, double sizeWidth, int clientID, int routeID, String status) {
-        return new Paquete(packageID,name,description,weight,price,sizeHeight,sizeWidth,clientID,routeID,status);
+        Paquete paquete = new Paquete();
+
+        paquete.setPackageID(packageID);
+        paquete.setName(name);
+        paquete.setDescription(description);
+        paquete.setWeight(weight);
+        paquete.setPrice(price);
+        paquete.setSizeHeight(sizeHeight);
+        paquete.setSizeWidth(sizeWidth);
+        paquete.setClientID(clientID);
+        paquete.setRouteID(routeID);
+        paquete.setStatus(status);
+
+        return paquete;
     }
 
     public static Paquete copyPaquete(Paquete paquete) {
