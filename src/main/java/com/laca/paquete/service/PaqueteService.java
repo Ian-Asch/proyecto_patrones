@@ -43,13 +43,13 @@ public class PaqueteService {
                         resultSet.getInt("ClientID"),
                         resultSet.getInt("RouteID"),
                         resultSet.getString("Status"));
+                paquetes.add(paquete);
             }
+            return paquetes;
 
         } catch (Exception e) {
             throw new RuntimeException("Error updating package: " + e.getMessage(), e);
         }
-
-        return paquetes;
     }
 
 
@@ -102,18 +102,17 @@ public class PaqueteService {
 
         try (Connection connection = dataSource.getConnection()) {
 
-            String query = "UPDATE Packages SET Name=?," +
-                "Description=?," +
-                "Weight=?," +
-                "Price=?," +
-                "SizeHeight=?," +
-                "SizeWidth=?," +
-                "ClientID=?," +
-                "RouteID=?," +
-                "Status=? WHERE PackageID=?";
+            String query = "UPDATE Packages p set Name = ?," +
+                "Description = ?," +
+                "Weight = ?," +
+                "Price = ?," +
+                "SizeHeight = ?," +
+                "SizeWidth = ?," +
+                "ClientID = ?," +
+                "RouteID = ?," +
+                "Status = ?  WHERE p.PackageID = ?";
 
             PreparedStatement statement = connection.prepareStatement(query);
-
             statement.setString(1,updatePaquete.getName());
             statement.setString(2,updatePaquete.getDescription());
             statement.setDouble(3,updatePaquete.getWeight());
@@ -123,7 +122,6 @@ public class PaqueteService {
             statement.setInt(7,updatePaquete.getClientID());
             statement.setInt(8,updatePaquete.getRouteID());
             statement.setString(9,updatePaquete.getStatus());
-
             statement.setInt(10,packageID);
 
         } catch (SQLException e) {
@@ -136,7 +134,7 @@ public class PaqueteService {
     public Paquete getPaqueteId(int packageID) {
         try (Connection connection = dataSource.getConnection()) {
 
-            String query = "SELECT * FROM Packages WHERE UserID = ?";
+            String query = "SELECT * FROM Packages WHERE PackageID = ?";
 
             PreparedStatement statement = connection.prepareStatement(query);
 
