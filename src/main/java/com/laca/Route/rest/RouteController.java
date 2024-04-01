@@ -1,5 +1,6 @@
 package com.laca.Route.rest;
 import com.laca.Route.Route;
+import com.laca.Route.prototype.RoutePrototype;
 import com.laca.Route.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class RouteController {
     @GetMapping
     public List<Route> getAllRoutes() {
         List<Route> routes = routeService.getAllRoutes();
+        System.out.println(routes);
         return routes;
     }
 
@@ -71,4 +73,27 @@ public class RouteController {
         }
 
     }
+
+    @PostMapping("/{routeId}/clone")
+    public ResponseEntity<?> cloneRoute(@PathVariable Long routeId) {
+        try {
+            RoutePrototype clonedRoute = routeService.cloneRouteById(routeId);
+            return ResponseEntity.ok(clonedRoute);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error cloning route: " + e.getMessage());
+        }
+    }
+
+//    @PostMapping("/clone")
+//    public ResponseEntity<?> cloneAndSaveRoute(@RequestBody Route route) {
+//        try {
+//            RoutePrototype clonedRoute = route.clone();
+//            Route newRoute = routeService.saveRoute((Route) clonedRoute);
+//
+//            return ResponseEntity.ok(newRoute);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error cloning and saving route: " + e.getMessage());
+//        }
+//    }
+
 }
