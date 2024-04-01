@@ -1,4 +1,5 @@
 package com.laca.Route.service;
+import com.laca.Route.DurationType;
 import com.laca.Route.Route;
 
 import com.laca.Route.prototype.RoutePrototype;
@@ -34,7 +35,7 @@ public class RouteService {
                 route.setEndPointID(resultSet.getInt("EndPointID"));
                 route.setShippingCost(resultSet.getDouble("ShippingCost"));
                 route.setApproved(resultSet.getBoolean("Approved"));
-                route.setDurationType(resultSet.getString("DurationType"));
+                route.setDurationType(DurationType.valueOf(resultSet.getString("DurationType").toUpperCase()));
                 routes.add(route);
             }
         } catch (SQLException e) {
@@ -54,7 +55,7 @@ public class RouteService {
             statement.setInt(4, route.getEndPointID());
             statement.setDouble(5, route.getShippingCost());
             statement.setBoolean(6, route.isApproved());
-            statement.setString(7, route.getDurationType());
+            statement.setString(7, route.getDurationType().toString());
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 1) {
                 ResultSet generatedKeys = statement.getGeneratedKeys();
@@ -81,7 +82,7 @@ public class RouteService {
             statement.setInt(5, updatedRoute.getEndPointID());
             statement.setDouble(6, updatedRoute.getShippingCost());
             statement.setBoolean(7, updatedRoute.isApproved());
-            statement.setString(8, updatedRoute.getDurationType());
+            statement.setString(8, updatedRoute.getDurationType().toString());
 
             boolean hasResults = statement.execute();
 
@@ -99,7 +100,7 @@ public class RouteService {
                 int updatedEndPointID = resultSet.getInt("EndPointID");
                 double updatedShippingCost = resultSet.getDouble("ShippingCost");
                 boolean updatedApproved = resultSet.getBoolean("Approved");
-                String updatedDurationType = resultSet.getString("DurationType");
+                DurationType updatedDurationType = DurationType.valueOf(resultSet.getString("DurationType").toUpperCase());
 
                 // Crea un nuevo Route con los datos actualizados y devuélvelo
                 updatedRoute.setRouteID((long) updatedRouteId);
@@ -138,7 +139,7 @@ public class RouteService {
                 route.setEndPointID(resultSet.getInt("EndPointID"));
                 route.setShippingCost(resultSet.getDouble("ShippingCost"));
                 route.setApproved(resultSet.getBoolean("Approved"));
-                route.setDurationType(resultSet.getString("DurationType"));
+                route.setDurationType(DurationType.valueOf(resultSet.getString("DurationType").toUpperCase()));
                 return route;
             } else {
                 throw new RuntimeException("Route not found with ID: " + routeId);
@@ -185,7 +186,7 @@ public class RouteService {
                 route.setEndPointID(resultSet.getInt("EndPointID"));
                 route.setShippingCost(resultSet.getDouble("ShippingCost"));
                 route.setApproved(resultSet.getBoolean("Approved"));
-                route.setDurationType(resultSet.getString("DurationType"));
+                route.setDurationType(DurationType.valueOf(resultSet.getString("DurationType").toUpperCase()));
 
                 RoutePrototype clonedRoute = route.clone();
                 saveRoute((Route)clonedRoute);
