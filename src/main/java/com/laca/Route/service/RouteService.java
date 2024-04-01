@@ -1,6 +1,7 @@
 package com.laca.Route.service;
 import com.laca.Route.Route;
 
+import com.laca.Route.prototype.RoutePrototype;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +22,19 @@ public class RouteService {
     public List<Route> getAllRoutes() {
         List<Route> routes = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
-            String query = "SELECT * FROM routes";
+            String query = "SELECT * FROM Routes";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Route route = new Route();
-                route.setRouteID(resultSet.getLong("id"));
-                route.setName(resultSet.getString("name"));
-                route.setDescription(resultSet.getString("description"));
-                route.setStartPointID(resultSet.getInt("startPoint"));
-                route.setEndPointID(resultSet.getInt("endPoint"));
-                route.setShippingCost(resultSet.getDouble("shippingPoint"));
-                route.setApproved(resultSet.getBoolean("approve"));
-                route.setDurationType(resultSet.getString("durationType"));
+                route.setRouteID(resultSet.getLong("RouteID"));
+                route.setName(resultSet.getString("Name"));
+                route.setDescription(resultSet.getString("Description"));
+                route.setStartPointID(resultSet.getInt("StartPointID"));
+                route.setEndPointID(resultSet.getInt("EndPointID"));
+                route.setShippingCost(resultSet.getDouble("ShippingCost"));
+                route.setApproved(resultSet.getBoolean("Approved"));
+                route.setDurationType(resultSet.getString("DurationType"));
                 routes.add(route);
             }
         } catch (SQLException e) {
@@ -45,7 +46,7 @@ public class RouteService {
     @Transactional
     public Route saveRoute(Route route) {
         try (Connection connection = dataSource.getConnection()) {
-            String query = "INSERT INTO Routes (name, description, startPoint, endPoint, shippingCost, approved, durationtype) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Routes (Name, Description, StartPointID, EndPointID, ShippingCost, Approved, DurationType) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setString(1, route.getName());
             statement.setString(2, route.getDescription());
@@ -91,14 +92,14 @@ public class RouteService {
             ResultSet resultSet = statement.getResultSet();
 
             if (resultSet.next()) {
-                int updatedRouteId = resultSet.getInt("id");
-                String updatedName = resultSet.getString("name");
-                String updatedDescription = resultSet.getString("description");
-                int updatedStartPointID = resultSet.getInt("startPointID");
-                int updatedEndPointID = resultSet.getInt("endPointID");
-                double updatedShippingCost = resultSet.getDouble("shippingCost");
-                boolean updatedApproved = resultSet.getBoolean("approved");
-                String updatedDurationType = resultSet.getString("durationType");
+                int updatedRouteId = resultSet.getInt("RouteID");
+                String updatedName = resultSet.getString("Name");
+                String updatedDescription = resultSet.getString("Description");
+                int updatedStartPointID = resultSet.getInt("StartPointID");
+                int updatedEndPointID = resultSet.getInt("EndPointID");
+                double updatedShippingCost = resultSet.getDouble("ShippingCost");
+                boolean updatedApproved = resultSet.getBoolean("Approved");
+                String updatedDurationType = resultSet.getString("DurationType");
 
                 // Crea un nuevo Route con los datos actualizados y devuélvelo
                 updatedRoute.setRouteID((long) updatedRouteId);
@@ -122,7 +123,7 @@ public class RouteService {
     @Transactional
     public Route getRouteById(Long routeId) {
         try (Connection connection = dataSource.getConnection()) {
-            String query = "SELECT id, name, company FROM Routes WHERE id = ?";
+            String query = "SELECT * FROM Routes WHERE RouteID = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, routeId);
 
@@ -130,14 +131,14 @@ public class RouteService {
 
             if (resultSet.next()) {
                 Route route = new Route();
-                route.setRouteID(resultSet.getLong("id"));
-                route.setName(resultSet.getString("name"));
-                route.setDescription(resultSet.getString("description"));
-                route.setStartPointID(resultSet.getInt("startPoint"));
-                route.setEndPointID(resultSet.getInt("endPoint"));
-                route.setShippingCost(resultSet.getDouble("shippingPoint"));
-                route.setApproved(resultSet.getBoolean("approve"));
-                route.setDurationType(resultSet.getString("durationType"));
+                route.setRouteID(resultSet.getLong("RouteID"));
+                route.setName(resultSet.getString("Name"));
+                route.setDescription(resultSet.getString("Description"));
+                route.setStartPointID(resultSet.getInt("StartPointID"));
+                route.setEndPointID(resultSet.getInt("EndPointID"));
+                route.setShippingCost(resultSet.getDouble("ShippingCost"));
+                route.setApproved(resultSet.getBoolean("Approved"));
+                route.setDurationType(resultSet.getString("DurationType"));
                 return route;
             } else {
                 throw new RuntimeException("Route not found with ID: " + routeId);
@@ -150,7 +151,7 @@ public class RouteService {
     @Transactional
     public Boolean deleteRoute(Long routeId) {
         try (Connection connection = dataSource.getConnection()) {
-            String query = "DELETE FROM Routes where Routes.id  = ?";
+            String query = "DELETE FROM Routes where RouteID  = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, routeId);
             int rowsAffected = statement.executeUpdate();
@@ -165,5 +166,50 @@ public class RouteService {
             throw new RuntimeException("Error deleting route: " + e.getMessage(), e);
         }
     }
+
+    @Transactional
+    public RoutePrototype cloneRouteById(Long routeId) {
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT * FROM Routes WHERE RouteID = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, routeId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Route route = new Route();
+                route.setRouteID(resultSet.getLong("RouteID"));
+                route.setName(resultSet.getString("Name"));
+                route.setDescription(resultSet.getString("Description"));
+                route.setStartPointID(resultSet.getInt("StartPointID"));
+                route.setEndPointID(resultSet.getInt("EndPointID"));
+                route.setShippingCost(resultSet.getDouble("ShippingCost"));
+                route.setApproved(resultSet.getBoolean("Approved"));
+                route.setDurationType(resultSet.getString("DurationType"));
+
+                RoutePrototype clonedRoute = route.clone();
+                saveRoute((Route)clonedRoute);
+
+                return clonedRoute;
+            } else {
+                throw new RuntimeException("Route not found with ID: " + routeId);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving route: " + e.getMessage(), e);
+        }
+    }
+
+//    @Transactional
+//    public RoutePrototype cloneAndSaveRoute(Route route) {
+//        try {
+//            RoutePrototype clonedRoute = route.clone();
+//            saveRoute((Route)clonedRoute);
+//
+//            return clonedRoute;
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error cloning and saving route: " + e.getMessage());
+//        }
+//    }
+
 
 }
