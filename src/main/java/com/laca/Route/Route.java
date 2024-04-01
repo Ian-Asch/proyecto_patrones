@@ -10,20 +10,20 @@ public class Route implements RoutePrototype {
     private int EndPointID;
     private double ShippingCost;
     private boolean Approved;
-    private String DurationType;
+    private DurationType durationType;
 
     public Route() {
     }
 
-    public Route(Long routeID, String name, String description, int startPointID, int endPointID, double shippingCost, boolean approved, String durationType) {
-        RouteID = routeID;
-        Name = name;
-        Description = description;
-        StartPointID = startPointID;
-        EndPointID = endPointID;
-        ShippingCost = shippingCost;
-        Approved = approved;
-        DurationType = durationType;
+    public Route(Long routeID, String name, String description, int startPointID, int endPointID, double shippingCost, boolean approved, DurationType durationType) {
+        this.RouteID = routeID;
+        this.Name = name;
+        this.Description = description;
+        this.StartPointID = startPointID;
+        this.EndPointID = endPointID;
+        this.ShippingCost = shippingCost;
+        this.Approved = approved;
+        this.durationType = durationType;
     }
 
     public Long getRouteID() {
@@ -55,7 +55,7 @@ public class Route implements RoutePrototype {
     }
 
     public void setStartPointID(int startPointID) {
-        this.StartPointID = startPointID;
+        StartPointID = startPointID;
     }
 
     public int getEndPointID() {
@@ -82,16 +82,16 @@ public class Route implements RoutePrototype {
         Approved = approved;
     }
 
-    public String getDurationType() {
-        return DurationType;
+    public DurationType getDurationType() {
+        return durationType;
     }
 
-    public void setDurationType(String durationType) {
-        DurationType = durationType;
+    public void setDurationType(DurationType duration_Type) {
+        this.durationType = duration_Type;
     }
 
     @Override
     public RoutePrototype clone() {
-        return new Route(this.RouteID, this.Name, this.Description, this.StartPointID, this.EndPointID, this.ShippingCost, this.Approved, this.DurationType);
+        return new Route(this.RouteID, this.Name, this.Description, this.StartPointID, this.EndPointID, this.ShippingCost, this.Approved, this.durationType);
     }
 }
