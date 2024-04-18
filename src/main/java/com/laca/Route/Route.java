@@ -2,7 +2,7 @@ package com.laca.Route;
 
 import com.laca.Route.prototype.RoutePrototype;
 
-public class Route implements RoutePrototype {
+public class Route implements RoutePrototype, RouteInterface {
     private Long RouteID;
     private String Name;
     private String Description;

@@ -1,5 +1,9 @@
 package com.laca.Route.rest;
 import com.laca.Route.Route;
+import com.laca.Route.decorator.RouteDecorator;
+import com.laca.Route.decorator.concreteDecorator.LongRouteDecorator;
+import com.laca.Route.decorator.concreteDecorator.MediumRouteDecorator;
+import com.laca.Route.decorator.concreteDecorator.ShortRouteDecorator;
 import com.laca.Route.prototype.RoutePrototype;
 import com.laca.Route.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +35,30 @@ public class RouteController {
     }
 
     @PostMapping
-    public Route saveRoute(@RequestBody Route route) {
-        return routeService.saveRoute(route);
+    public RouteDecorator saveRoute(@RequestBody Route route) {
+        RouteDecorator routeDecorated = null;
+
+        // Aplicar los decoradores según el tipo de duración de la ruta
+        switch (route.getDurationType()) {
+            case SHORT:
+                RouteDecorator shortRoute = new ShortRouteDecorator(route);
+                System.out.println("Short route");
+                routeDecorated = shortRoute;
+                break;
+            case MEDIUM:
+                RouteDecorator mediumRoute = new MediumRouteDecorator(route);
+                System.out.println("Medium route");
+                routeDecorated = mediumRoute;
+
+                break;
+            case LONG:
+                RouteDecorator longRoute = new LongRouteDecorator(route);
+                System.out.println("Long route");
+                routeDecorated = longRoute;
+                break;
+        }
+
+        return routeService.saveRoute(routeDecorated);
     }
 
     @PutMapping("/{routeId}")

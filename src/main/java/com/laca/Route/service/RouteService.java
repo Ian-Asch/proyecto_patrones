@@ -2,6 +2,7 @@ package com.laca.Route.service;
 import com.laca.Route.DurationType;
 import com.laca.Route.Route;
 
+import com.laca.Route.decorator.RouteDecorator;
 import com.laca.Route.prototype.RoutePrototype;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class RouteService {
     }
 
     @Transactional
-    public Route saveRoute(Route route) {
+    public RouteDecorator saveRoute(RouteDecorator route) {
         try (Connection connection = dataSource.getConnection()) {
             String query = "INSERT INTO Routes (Name, Description, StartPointID, EndPointID, ShippingCost, Approved, DurationType) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -189,7 +190,7 @@ public class RouteService {
                 route.setDurationType(DurationType.valueOf(resultSet.getString("DurationType").toUpperCase()));
 
                 RoutePrototype clonedRoute = route.clone();
-                saveRoute((Route)clonedRoute);
+                saveRoute((RouteDecorator) clonedRoute);
 
                 return clonedRoute;
             } else {
