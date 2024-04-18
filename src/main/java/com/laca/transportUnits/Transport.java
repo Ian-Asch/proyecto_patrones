@@ -1,6 +1,8 @@
 package com.laca.transportUnits;
 
 import com.laca.transportUnits.enums.TransportType;
+import com.laca.transportUnits.pattern.state.Ready;
+import com.laca.transportUnits.pattern.state.TransportState;
 
 public class Transport {
 
@@ -13,6 +15,8 @@ public class Transport {
     private int MaxWeight;
     private int CarrierID;
 
+    private TransportState state;
+
     public Transport() {
     }
     public Transport(int UnitID, String Name, String Plate, int SizeHeight, int SizeWidth, String Type, int MaxWeight, int CarrierID) {
@@ -24,6 +28,12 @@ public class Transport {
         this.Type = Type;
         this.MaxWeight = MaxWeight;
         this.CarrierID = CarrierID;
+
+        this.state = new Ready(this);
+    }
+
+    public void changeState(TransportState state) {
+        this.state = state;
     }
 
     public int getUnitID() {
