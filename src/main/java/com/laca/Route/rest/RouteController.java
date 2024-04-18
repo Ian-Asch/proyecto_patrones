@@ -36,27 +36,11 @@ public class RouteController {
 
     @PostMapping
     public RouteDecorator saveRoute(@RequestBody Route route) {
-        RouteDecorator routeDecorated = null;
-
-        // Aplicar los decoradores según el tipo de duración de la ruta
-        switch (route.getDurationType()) {
-            case SHORT:
-                RouteDecorator shortRoute = new ShortRouteDecorator(route);
-                System.out.println("Short route");
-                routeDecorated = shortRoute;
-                break;
-            case MEDIUM:
-                RouteDecorator mediumRoute = new MediumRouteDecorator(route);
-                System.out.println("Medium route");
-                routeDecorated = mediumRoute;
-
-                break;
-            case LONG:
-                RouteDecorator longRoute = new LongRouteDecorator(route);
-                System.out.println("Long route");
-                routeDecorated = longRoute;
-                break;
-        }
+        RouteDecorator routeDecorated = switch (route.getDurationType()) {
+            case SHORT -> new ShortRouteDecorator(route);
+            case MEDIUM -> new MediumRouteDecorator(route);
+            case LONG -> new LongRouteDecorator(route);
+        };
 
         return routeService.saveRoute(routeDecorated);
     }
