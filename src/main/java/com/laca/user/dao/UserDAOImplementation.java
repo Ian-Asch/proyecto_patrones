@@ -43,6 +43,12 @@ public class UserDAOImplementation implements UserDAO {
     }
 
     @Override
+    public User authUser(String identificationNumber, String password) {
+        String sql = "SELECT * FROM Users WHERE IdentificationNumber = ? AND Password = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{identificationNumber, password}, userRowMapper);
+    }
+
+    @Override
     public User createUser(User user) {
         String sql = "INSERT INTO Users (Name, IdentificationNumber, CompanyName, UserType, Password) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, user.getName(), user.getIdentificationNumber(), user.getCompanyName(), user.getUserType(), user.getPassword());

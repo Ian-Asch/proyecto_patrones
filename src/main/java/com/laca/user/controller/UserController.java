@@ -34,6 +34,13 @@ public class UserController {
         return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
+    // add an authUser method
+    @GetMapping("/{identificationNumber}/{password}")
+    public ResponseEntity<User> authUser(@PathVariable String identificationNumber, @PathVariable String password) {
+        User user = userService.authUser(identificationNumber, password);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+    }
+
     @PostMapping("/")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);

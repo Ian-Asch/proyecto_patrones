@@ -23,8 +23,13 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-public User getUserByIdentificationNumber(String identificationNumber) {
+    public User getUserByIdentificationNumber(String identificationNumber) {
         return userDAO.getUserByIdentificationNumber(identificationNumber);
+    }
+
+    @Transactional(readOnly = true)
+    public User authUser(String identificationNumber, String password) {
+        return userDAO.authUser(identificationNumber, password);
     }
 
     @Transactional
