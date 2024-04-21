@@ -3,71 +3,46 @@ package com.laca.user.controller;
 import com.laca.user.User;
 import com.laca.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController()
+@RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:4200/")
 public class UserController {
 
+    @Autowired
     private UserService userService;
 
-    @Autowired()
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
-
-    @GetMapping
-    public List<User> getAllUsers() {
+    @GetMapping("/")
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
-        System.out.println(users);
-        return users;
-    }
-
-    @PostMapping
-    public User saveUsers(@RequestBody User user) {
-        return userService.saveUser(user);
-    }
-
-    @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(
-            @PathVariable int userId,
-            @RequestBody User updatedUser) {
-        try {
-            User updated = userService.updateUser(userId, updatedUser);
-            return ResponseEntity.ok(updated);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating user: " + e.getMessage());
-        }
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable Long userId) {
-        try {
-            User user = userService.getUserId(userId);
-            return ResponseEntity.ok(user);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found: " + e.getMessage());
-        }
+    public ResponseEntity<User> getUserById(@PathVariable int userId) {
+        User user = userService.getUserById(userId);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        return ResponseEntity.ok(createdUser);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable int userId, @RequestBody User user) {
+        user.setUserID(userId);
+        User updatedUser = userService.updateUser(user);
+        return updatedUser != null ? ResponseEntity.ok(updatedUser) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable int userId) {
-        try {
-            boolean isDeleted = userService.deleteUser(userId);
-            User user= new User();
-            user.setUserID(userId);
-            System.out.println(isDeleted);
-            if (isDeleted) {
-                return ResponseEntity.ok(user);
-            }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userId);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error deleting User: " + e.getMessage());
-        }
+    public ResponseEntity<Void> deleteUser(@PathVariable int userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok().build();
     }
 }
