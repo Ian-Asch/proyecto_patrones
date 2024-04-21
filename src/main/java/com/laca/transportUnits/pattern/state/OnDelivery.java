@@ -10,6 +10,8 @@ public class OnDelivery extends TransportState{
     @Override
     public void terminarEntrega() {
         transport.changeState(new Ready(transport));
+        transport.setRoute(null);
+        transport.setPaquete(null);
         System.out.println("Entrega terminada");
     }
 
@@ -22,6 +24,8 @@ public class OnDelivery extends TransportState{
     @Override
     public void deshabilitar() {
         transport.changeState(new Disabled(transport));
+        transport.setRoute(null);
+        transport.setPaquete(null);
         System.out.println("vehiculo deshabilitado");
     }
 }
