@@ -1,8 +1,9 @@
 package com.laca.transportUnits;
 
-import com.laca.transportUnits.enums.TransportType;
+import com.laca.paquete.Paquete;
 import com.laca.transportUnits.pattern.state.Ready;
 import com.laca.transportUnits.pattern.state.TransportState;
+import com.laca.transportUnits.pattern.strategy.ITransportPackageValidation;
 
 public class Transport {
 
@@ -16,6 +17,9 @@ public class Transport {
     private int CarrierID;
 
     private TransportState state;
+    private Paquete paquete;
+
+    private ITransportPackageValidation packageValidationStrategy;
 
     public Transport() {
     }
@@ -31,10 +35,14 @@ public class Transport {
 
         this.state = new Ready(this);
     }
+    public Transport(ITransportPackageValidation packageValidationStrategy) {
+        this.packageValidationStrategy = packageValidationStrategy;
+    }
 
     public void changeState(TransportState state) {
         this.state = state;
     }
+
 
     public int getUnitID() {
         return UnitID;
@@ -87,6 +95,16 @@ public class Transport {
     }
     public void setCarrierID(int carrierID) {
         CarrierID = carrierID;
+    }
+
+    public Paquete getPaquete() {
+        return paquete;
+    }
+    public void setPaquete(Paquete paquete) {
+        this.paquete = paquete;
+    }
+    public boolean validatePackage(Paquete packageToValidate) {
+        return packageValidationStrategy.validate(packageToValidate);
     }
 
     public String getType() {
