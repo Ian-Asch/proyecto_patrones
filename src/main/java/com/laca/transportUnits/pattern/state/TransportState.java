@@ -9,8 +9,10 @@ public abstract class TransportState {
         this.transport = transport;
     }
 
-    public void asignarEntrega(){}
-    public void terminarEntrega(){}
-    //public void asignarPaquete(){}
-    //public void asignarRuta(){}
+    public boolean asignarEntrega() {
+        return false;
+    }
+    public void terminarEntrega() {}
+    public void deshabilitar() {}
+    public void habilitar() {}
 }

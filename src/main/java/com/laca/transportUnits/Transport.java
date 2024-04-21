@@ -1,5 +1,7 @@
 package com.laca.transportUnits;
 
+import com.laca.Route.Route;
+import com.laca.paquete.Paquete;
 import com.laca.transportUnits.enums.TransportType;
 import com.laca.transportUnits.pattern.state.Ready;
 import com.laca.transportUnits.pattern.state.TransportState;
@@ -14,6 +16,9 @@ public class Transport {
     private String Type;
     private int MaxWeight;
     private int CarrierID;
+
+    private Paquete paquete;
+    private Route route;
 
     private TransportState state;
 
@@ -34,6 +39,43 @@ public class Transport {
 
     public void changeState(TransportState state) {
         this.state = state;
+    }
+
+
+    public void asignarEntrega(Paquete paquete, Route route) {
+        if (this.state.asignarEntrega()) {
+            setPaquete(paquete);
+            setRoute(route);
+        }
+    }
+
+    public void terminarEntrega() {
+        this.state.terminarEntrega();
+    }
+
+    public void deshabilitar() {
+        this.state.deshabilitar();
+    }
+
+    public void habilitar() {
+        this.state.habilitar();
+    }
+
+
+    public void setPaquete(Paquete paquete) {
+        this.paquete = paquete;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public Paquete getPaquete() {
+        return paquete;
+    }
+
+    public Route getRoute() {
+        return route;
     }
 
     public int getUnitID() {
@@ -92,6 +134,8 @@ public class Transport {
     public String getType() {
         return Type;
     }
+
+
 
     @Override
     public String toString() {

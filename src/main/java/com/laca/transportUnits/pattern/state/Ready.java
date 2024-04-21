@@ -8,11 +8,19 @@ public class Ready extends TransportState {
     }
 
     @Override
-    public void asignarEntrega() {
+    public boolean asignarEntrega() {
         transport.changeState(new OnDelivery(transport));
+        System.out.println("Paquete asignado");
+        return true;
+    }
+
+    @Override
+    public void terminarEntrega() {
+        System.out.println("No hay una entrega para este vehiculo");
     }
 
     public void deshabilitar() {
         transport.changeState(new Disabled(transport));
+        System.out.println("vehiculo deshabilitado");
     }
 }

@@ -10,4 +10,10 @@ public class Disabled extends TransportState{
     public void habilitar() {
         transport.changeState(new Ready(transport));
     }
+
+    @Override
+    public boolean asignarEntrega() {
+        System.out.println("Este vehiculo esta deshabilitado");
+        return false;
+    }
 }

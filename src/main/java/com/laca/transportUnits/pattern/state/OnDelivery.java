@@ -10,9 +10,18 @@ public class OnDelivery extends TransportState{
     @Override
     public void terminarEntrega() {
         transport.changeState(new Ready(transport));
+        System.out.println("Entrega terminada");
     }
 
-    public void cancelarEntrega() {
-        transport.changeState(new Ready(transport));
+    @Override
+    public boolean asignarEntrega() {
+        System.out.println("Ya se asigno una entrega");
+        return false;
+    }
+
+    @Override
+    public void deshabilitar() {
+        transport.changeState(new Disabled(transport));
+        System.out.println("vehiculo deshabilitado");
     }
 }
