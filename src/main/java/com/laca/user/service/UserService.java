@@ -22,6 +22,11 @@ public class UserService {
         return userDAO.getUserById(userId);
     }
 
+    @Transactional(readOnly = true)
+public User getUserByIdentificationNumber(String identificationNumber) {
+        return userDAO.getUserByIdentificationNumber(identificationNumber);
+    }
+
     @Transactional
     public User createUser(User user) {
         return userDAO.createUser(user);

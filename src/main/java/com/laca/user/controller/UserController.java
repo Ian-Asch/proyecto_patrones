@@ -28,6 +28,12 @@ public class UserController {
         return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/{identificationNumber}")
+    public ResponseEntity<User> getUserByIdentificationNumber(@PathVariable String identificationNumber) {
+        User user = userService.getUserByIdentificationNumber(identificationNumber);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+    }
+
     @PostMapping("/")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User createdUser = userService.createUser(user);
