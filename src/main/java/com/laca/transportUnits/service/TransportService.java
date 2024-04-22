@@ -1,10 +1,11 @@
 package com.laca.transportUnits.service;
 
 import com.laca.transportUnits.Transport;
-import com.laca.transportUnits.enums.TransportType;
 import com.laca.transportUnits.pattern.builder.ITransport;
 import com.laca.transportUnits.pattern.builder.TransportBuilder;
 import com.laca.transportUnits.pattern.director.TransportBuilderDirector;
+import com.laca.transportUnits.pattern.strategy.*;
+import com.laca.paquete.Paquete;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -79,9 +80,28 @@ public class TransportService {
         return transport;
     }
 
-    @Transactional // Problemas de tipo de variables
+    @Transactional
     public Transport updateTransport(int UnitID, Transport updatedTransport) {
         try (Connection connection = dataSource.getConnection()) {
+
+            ITransportPackageValidation validationStrategy;
+            if (updatedTransport.getType().equals("Pickup")) {
+                validationStrategy = new PickupPackageValidation();
+            } else if (updatedTransport.getType().equals("Truck")) {
+                validationStrategy = new TruckPackageValidation();
+            } else if (updatedTransport.getType().equals("Motorcycle")) {
+                validationStrategy = new MotorcyclePackageValidation();
+            } else if (updatedTransport.getType().equals("On_Foot")) {
+                validationStrategy = new OnFootPackageValidation();
+            } else {
+                throw new RuntimeException("Invalid transport type: " + updatedTransport.getType());
+            }
+
+            Paquete paquete = updatedTransport.getPaquete();
+            if (!validationStrategy.validate(paquete)) {
+                throw new RuntimeException("The updated transport does not meet the validation criteria.");
+            }
+
             String storedProcedureCall = "{call update_TransportUnits(?, ?, ?, ?, ?, ?, ?, ?)}";
             CallableStatement statement = connection.prepareCall(storedProcedureCall);
 

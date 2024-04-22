@@ -3,8 +3,10 @@ package com.laca.transportUnits;
 import com.laca.Route.Route;
 import com.laca.paquete.Paquete;
 import com.laca.transportUnits.enums.TransportType;
+import com.laca.paquete.Paquete;
 import com.laca.transportUnits.pattern.state.Ready;
 import com.laca.transportUnits.pattern.state.TransportState;
+import com.laca.transportUnits.pattern.strategy.ITransportPackageValidation;
 
 public class Transport {
 
@@ -22,6 +24,8 @@ public class Transport {
 
     private TransportState state;
 
+    private ITransportPackageValidation packageValidationStrategy;
+
     public Transport() {
     }
     public Transport(int UnitID, String Name, String Plate, int SizeHeight, int SizeWidth, String Type, int MaxWeight, int CarrierID) {
@@ -35,6 +39,9 @@ public class Transport {
         this.CarrierID = CarrierID;
 
         this.state = new Ready(this);
+    }
+    public Transport(ITransportPackageValidation packageValidationStrategy) {
+        this.packageValidationStrategy = packageValidationStrategy;
     }
 
     public void changeState(TransportState state) {
@@ -131,11 +138,13 @@ public class Transport {
         CarrierID = carrierID;
     }
 
+    public boolean validatePackage(Paquete packageToValidate) {
+        return packageValidationStrategy.validate(packageToValidate);
+    }
+
     public String getType() {
         return Type;
     }
-
-
 
     @Override
     public String toString() {
