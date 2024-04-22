@@ -3,6 +3,7 @@ import com.laca.Route.DurationType;
 import com.laca.Route.Route;
 
 import com.laca.Route.decorator.RouteDecorator;
+import com.laca.Route.decorator.concreteDecorator.ShortRouteDecorator;
 import com.laca.Route.prototype.RoutePrototype;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -181,7 +182,7 @@ public class RouteService {
             if (resultSet.next()) {
                 Route route = new Route();
                 route.setRouteID(resultSet.getLong("RouteID"));
-                route.setName(resultSet.getString("Name"));
+                route.setName(resultSet.getString("Name") + " (Clonado)");
                 route.setDescription(resultSet.getString("Description"));
                 route.setStartPointID(resultSet.getInt("StartPointID"));
                 route.setEndPointID(resultSet.getInt("EndPointID"));
@@ -190,7 +191,9 @@ public class RouteService {
                 route.setDurationType(DurationType.valueOf(resultSet.getString("DurationType").toUpperCase()));
 
                 RoutePrototype clonedRoute = route.clone();
-                saveRoute((RouteDecorator) clonedRoute);
+                RouteDecorator routeDecorator = new ShortRouteDecorator((Route) clonedRoute);
+                routeDecorator.setShippingCost(((Route) clonedRoute).getShippingCost());
+                saveRoute(routeDecorator);
 
                 return clonedRoute;
             } else {
