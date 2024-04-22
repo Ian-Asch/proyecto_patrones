@@ -36,8 +36,8 @@ public class UserController {
     }
 
     // add an authUser method
-    @GetMapping("/{identificationNumber}/{password}")
-    public ResponseEntity<User> authUser(@PathVariable String identificationNumber, @PathVariable String password) {
+    @GetMapping("/auth")
+    public ResponseEntity<User> authUser(@RequestParam String identificationNumber, @RequestParam String password) {
         User user = userService.authUser(identificationNumber, password);
         return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
